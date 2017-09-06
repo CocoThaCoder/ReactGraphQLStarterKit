@@ -3,24 +3,29 @@ var webpack = require('webpack');
 var express = require('express');
 var devMiddleware = require('webpack-dev-middleware');
 var hotMiddleware = require('webpack-hot-middleware');
-var config = require('./webpack.config');
+var config = require('./webpack.config.dev');
 
 var app = express();
 var compiler = webpack(config);
 
-app.use(devMiddleware(compiler, {
-  publicPath: config.output.publicPath,
-  historyApiFallback: true,
-  stats: { colors: true }
-}));
-
-// server static assets normally
-app.use('/public', express.static(__dirname + '/public'));
+app.use(devMiddleware(compiler, config.devServer));
 
 app.use(hotMiddleware(compiler));
 
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'index.html'));
+// server static assets normally
+app.use('/public', express.static(path.join(__dirname, '/public')));
+
+
+app.get('*', function (req, res, next) {
+  var filename = path.join(compiler.outputPath,'index.html');
+    compiler.outputFileSystem.readFile(filename, function(err, result){
+      if (err) {
+        return next(err);
+      }
+      res.set('content-type','text/html');
+      res.send(result);
+      res.end();
+    });
 });
 
 app.listen(8080, function (err) {

@@ -22,7 +22,7 @@ ReactDOM.render(
 	<AppContainer>
 		<Root history={ browserHistory }/>
 	</AppContainer>
-	, document.querySelector('#content')
+	, document.querySelector('.render-target')
 );
 
 if (module.hot) {
@@ -32,7 +32,7 @@ if (module.hot) {
 			<AppContainer>
 				<NewRoot history={ browserHistory }/>
 			</AppContainer>
-			, document.querySelector('#content')
+			, document.querySelector('.render-target')
 		);
 	});
 }

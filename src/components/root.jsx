@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
-import { Router } from 'react-router';
-import routes from './routes';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Main from './main';
 
 const networkInterface = createNetworkInterface({
   uri: 'http://localhost:3090/graphql', // GraphQL Server uri goes here
@@ -22,7 +22,9 @@ export default class Root extends Component {
 
     return (
       <ApolloProvider client={client}>
-        <Router history={ history } routes={ routes }/>
+        <Router history={ history }>
+          <Route path="/" component={Main} />
+        </Router>
       </ApolloProvider>
     )
   }

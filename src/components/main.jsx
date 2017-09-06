@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import Radium from 'radium';
 import { flat as styler } from 'react-styling';
 import { graphql } from 'react-apollo';
-
 // Styles
 require('../../public/styles/index.scss');
 
